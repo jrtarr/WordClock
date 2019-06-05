@@ -6,13 +6,32 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Word Clock</title>
     <link rel="stylesheet" href="styles/style.min.css">
+    <script src="https://kit.fontawesome.com/b289eac911.js"></script>
 </head>
+
 <body>
     <div id="container">
+        <h1><span>WORD</span><span>:</span><span>CLOCK</span></h1>
+        <noscript>Hey Friend, you need to enable Javascript to see the clock!</noscript>
         <div id="clock-container">
             <table id="clock-table"></table>
         </div>
+        <i id="alarm-button" class="far fa-bell" alt="Set an Alarm"></i>
+        <div id="alarm-container" class="hidden">
+            <form id="alarmForm">
+                <input type="number" name="alarm-hour" min="0" max="12" maxlength="2"> : <input type="number" name="alarm-minute" min="0" max="59" maxlength="2"> 
+                <select>
+                    <option value="am">AM</option>
+                    <option value="pm">PM</option>
+                </select>
+                <br/>
+                <button>SET ALARM</button>
+            </form>
+        </div>
     </div>
+    <footer>
+        <a href="https://github.com/jrtarr">CREATED BY JAMES TARR</a>
+    </footer>
     <script src='scripts/bundle.js'></script>
 </body>
 </html>

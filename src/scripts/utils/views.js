@@ -46,12 +46,14 @@ function activateTime(timeArray){
                 for(index; index <= length; index++){
                     rowEl.children[index].classList.toggle('on');
                     if(cursor[1] > 10){
+                        //Reset cursor to 0 if the end of the columns have been reached
                         cursor[1] = 0;
                     }else{
                         cursor[1] = index;
                     }
                 };
             }else{
+                //Increment cursor to the beginning of the next row
                 cursor[0] += 1;
                 cursor[1] = 0;
             }

@@ -1,0 +1,73 @@
+i{
+    font-size: 2em;
+    color: $black2;
+    transition: color .25s linear, text-shadow .25s linear;
+    &:hover{
+        @include glow;
+        transition: color .25s linear, text-shadow .25s linear;
+        cursor: pointer;
+    }
+}
+#alarm-container{
+    overflow: hidden;
+    height: auto;
+    transform: scaleY(1);
+    transform-origin: top;
+    margin: 10px 0;
+    outline: none;
+    transition: transform .1s linear;
+    &.hidden{
+        transform: scaleY(0);
+    }
+    form{
+        transform: inherit;
+        display: inherit;
+        height: inherit;
+        padding: 10px 0;
+        background-color: $black2;
+        color: $black1;
+        font-size: 1em;
+        input[type="number"]{
+            color: $black1;
+            font-size: 1.6em;
+            text-align: center;
+            width: 35px;
+            border: none;
+            border-bottom: 1px solid $black1;
+            background: transparent;
+            &:focus{
+                outline: none;
+            }
+            &::-webkit-inner-spin-button,&::-webkit-outer-spin-button{
+                -webkit-appearance: none;
+                margin: 0;
+            }
+        }
+        select{
+            cursor: pointer;
+            color: $black1;
+            padding: 5px;
+            border: 1px solid $black1;
+            background: transparent; 
+            &:focus{
+                outline: none;
+            }
+        }
+        button{
+            cursor: pointer;
+            font-size: .9em;
+            color: $black1;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid $black1;
+            background: transparent;
+            transition: color .25s linear, box-shadow .25s linear;
+            &:hover{
+                @include glow;
+                box-shadow: 0 0 3px white inset, 0 0 3px white;
+                border: 1px solid $white;
+                transition: color .25s linear, box-shadow .25s linear;
+            }
+        }
+    }
+}

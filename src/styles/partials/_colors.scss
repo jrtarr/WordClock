@@ -1,0 +1,13 @@
+$black1: #141414;
+$black2: #444444;
+$grey: #aaaaaa;
+$white: #EAEAEA;
+$cyan: #00D1CD;
+$magenta: #F30067;
+
+$gradient: linear-gradient(to right, $cyan, $magenta);
+
+@mixin glow{
+    color: $white;
+    text-shadow: 0 0 10px white;
+}
