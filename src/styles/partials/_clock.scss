@@ -38,3 +38,9 @@
     @include glow;
     transition: color .25s linear, text-shadow .25s linear;
 }
+
+@media screen and (max-width: 370px){
+    .clock-cell{
+        font-size: 10vmin;
+    }
+}

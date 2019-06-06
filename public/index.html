@@ -18,15 +18,13 @@
         </div>
         <i id="alarm-button" class="far fa-bell" alt="Set an Alarm"></i>
         <div id="alarm-container" class="hidden">
-            <form id="alarmForm">
-                <input type="number" name="alarm-hour" min="0" max="12" maxlength="2"> : <input type="number" name="alarm-minute" min="0" max="59" maxlength="2"> 
-                <select>
-                    <option value="am">AM</option>
-                    <option value="pm">PM</option>
-                </select>
+            <div id="alarm-form">
+                <button id="dec">▼</i></button>
+                <span id="alarm-hour" class="num-display">12</span>:<span id="alarm-min" class="num-display">00</span><span id="meridien">AM</span>
+                <button id="inc">▲</button>
                 <br/>
-                <button>SET ALARM</button>
-            </form>
+                <button id="alarm-setter" class="alarm-button">Set Alarm</button>
+            </div>
         </div>
     </div>
     <footer>
