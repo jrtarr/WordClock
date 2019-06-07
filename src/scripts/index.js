@@ -13,7 +13,7 @@ if (notificationsEnabled) {
 
 //Set initial variables
 let timeInt = undefined;
-const waitTime = 1000; //Amount of time for interval to wait - Five Minutes
+const waitTime = 300000; //Amount of time for interval to wait - Five Minutes
 let now = new Date();
 const alarmTime = {
     day: now.getDate(),
@@ -35,11 +35,19 @@ const alarmSetter = document.getElementById('alarm-setter');
 const alarmCancel = document.getElementById('alarm-cancel');
 const alarmContainer = document.getElementById('alarm-container');
 
+
+
 views.renderClock();
 views.activateTime(timeArray);
 
 let offset = getTimeOffset(minute);
-setTimeout(startClockInt(),offset);
+console.log(offset);
+setTimeout(()=>{
+    console.log(offset + ' milliseconds till update')
+    startClockInt()
+},offset);
+
+
 
 //Event Listeners
 //Toggle alarm display
@@ -78,7 +86,7 @@ function getTimeOffset(){
     if (minuteOffset === 0) {
         return 0;
     }else {
-        const offset = ((minuteOffset - 5) * -1) * 6000; //gets the remaining milliseconds to the next 5 minute interval
+        const offset = ((minuteOffset - 5) * -1) * 60000; //gets the remaining milliseconds to the next 5 minute interval
         const curMilSec = new Date().getMilliseconds();
         const intMilSec = curMilSec + offset;
         return intMilSec - curMilSec;
