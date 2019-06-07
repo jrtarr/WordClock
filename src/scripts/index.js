@@ -2,27 +2,38 @@ const time = require('./utils/time');
 const views = require('./utils/views');
 const alarm = require('./utils/alarm')
 
-const notificationsEnabled = notificationSupport();
+let notificationsEnabled = !window.Notification || !Notification.requestPermission() ? false : true;
+if(notificationsEnabled){
+    Notification.requestPermission().then(result => {
+        if(result === 'granted'){
+            notificationsEnabled = true;
+        };
+    });
+};
 
 //Set initial variables
 const waitTime = 1000; //Amount of time for interval to wait - Five Minutes
-const alarmTime = {
-    hour: 0,
-    min: 0
-};
-let mouseDownInterval = undefined;
-let alarmSet = false;
 let now = new Date();
+const alarmTime = {
+    day: now.getDate(),
+    month: now.getMonth()+1,
+    year: now.getFullYear(),
+    hour: 0,
+    min: 0,
+    meridien: 'AM'
+};
+let alarmSet = false;
+let date = now.getDate();
 let minute = now.getMinutes();
 let hour = now.getHours();
 let timeArray = time.buildSentence(minute,hour).split(' ');
 
 //DOM Elements
-const alarmButton = document.getElementById('alarm-button');
+const alarmToggle = document.getElementById('alarm-toggle');
+const alarmButtonParents = Array.from(document.getElementsByClassName('alarm-adjust'));
 const alarmSetter = document.getElementById('alarm-setter');
+const alarmCancel = document.getElementById('alarm-cancel');
 const alarmContainer = document.getElementById('alarm-container');
-const increment = document.getElementById('inc');
-const decrement = document.getElementById('dec');
 
 views.renderClock();
 views.activateTime(timeArray);
@@ -32,54 +43,36 @@ setTimeout(startClockInt(),offset);
 
 //Event Listeners
 //Toggle alarm display
-alarmButton.addEventListener('click', e => {
+alarmToggle.addEventListener('click', e => {
     alarmContainer.classList.toggle('hidden');
 });
 
-//Set Alarm
-alarmSetter.addEventListener('click', e =>{
-    clearInterval(timeInt)
-    alarmSet = true;
-    offset = getTimeOffset(minute);
-    alarmButton.classList.add('activated')
-    setTimeout(startClockInt(),offset);
+//Alarm buttons for each part of the time
+alarmButtonParents.forEach(el => {
+    el.addEventListener('click', e => {
+        if(e.target.classList.contains('inc')){
+            alarm.increase(e.target.nextElementSibling,alarmTime);
+        }else{
+            alarm.decrease(e.target.previousElementSibling,alarmTime);
+        }
+    })
 })
 
-//Increment on Mousedown, stop on Mouseup/out
-increment.addEventListener('mousedown', e => {
-    !mouseDownInterval && startMousedownInt(5)
-});
-increment.addEventListener('touchstart', e => {
-    !mouseDownInterval && startMousedownInt(5);
-});
-increment.addEventListener('mouseup', e => {
-    mouseDownInterval && clearInt();
-});
-increment.addEventListener('mouseout', e => {
-    mouseDownInterval && clearInt();
-});
-increment.addEventListener('touchend', e => {
-    mouseDownInterval && clearInt();
+//Set Alarm
+alarmSetter.addEventListener('click', e =>{
+    alarm.set(alarmTime);
+    clearInterval(timeInt);
+    alarmSet = true;
+    offset = getTimeOffset(minute);
+    alarmToggle.classList.add('activated');
+    setTimeout(startClockInt(),offset);
 });
 
-//Decrement on Mousedown, stop on Mouseup/out
-decrement.addEventListener('mousedown', e => {
-    !mouseDownInterval && startMousedownInt(-5)
-});
-decrement.addEventListener('touchstart', e => {
-    !mouseDownInterval && startMousedownInt(-5);
-});
-decrement.addEventListener('mouseup', e => {
-    mouseDownInterval && clearInt();
-});
-decrement.addEventListener('mouseout', e => {
-    mouseDownInterval && clearInt();
-});
-decrement.addEventListener('touchend', e => {
-    mouseDownInterval && clearInt();
-});
+alarmCancel.addEventListener('click', e =>{
+    alarmSet = false;
+    alarmToggle.classList.remove('activated');
+})
 
-//Functions
 function getTimeOffset(min){
     let minuteOffset = new Date().getMinutes() % 5;
     if(minuteOffset === 0){
@@ -95,44 +88,18 @@ function getTimeOffset(min){
 function startClockInt(){
     timeInt = setInterval(()=>{
         now = new Date();
+        date = now.getDate();
         minute = now.getMinutes();
         hour = now.getHours();
         if(alarmSet){
-            if(hour >= alarmTime.hour && minute >= alarmTime.min){
+            if(alarm.isPast(alarmTime)){
                 notificationsEnabled? new Notification('Word:Clock Alarm!') : alert('Word:Clock Alarm!');
                 alarmSet = false;
                 alarmButton.classList.remove('activated');
-            }
+            };
         };
         timeArray = time.buildSentence(minute,hour).split(' ');
         views.clearTime();
         views.activateTime(timeArray);
     },waitTime);
-}
-
-function notificationSupport(){
-    //Check if browser supports notifications. If not, return false and the alarm will use Javascript alerts.
-    if(!window.Notification || !Notification.requestPermission()){
-        return false;
-    }else{
-        Notification.requestPermission().then( result =>{
-            if(result !== 'granted'){
-                return false;
-            }else{
-                return true;
-            }
-        });
-    };
-}
-
-function clearInt(){
-    clearInterval(mouseDownInterval);
-    mouseDownInterval = undefined;
-};
-
-function startMousedownInt(amount){
-    mouseDownInterval = setInterval(()=>{
-        alarm.update(alarmTime,amount);
-        alarm.render(alarmTime);
-    },100);
 };

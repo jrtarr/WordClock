@@ -2,26 +2,34 @@ const alarmMinEl = document.getElementById('alarm-min');
 const alarmHourEl = document.getElementById('alarm-hour');
 const meridienEl = document.getElementById('meridien');
 
-function update(alarm,amount){
-    let {min,hour} = alarm;
-    if(min + amount >= 60){
-        hour = updateHour(hour,1)
-        min = 0;
-    }else if(min + amount < 0){
-        hour = updateHour(hour,-1)
-        min = 55;
-    }else{
-        min += amount;
-    }
-    alarm.hour = hour;
-    alarm.min = min;
-};
-
-function render({min, hour}){
+function render({min, hour, meridien}){
     alarmHourEl.textContent = leadingZero(formatHour(hour));
     alarmMinEl.textContent = leadingZero(min);
-    meridienEl.textContent = checkMeridian(hour);
+    meridienEl.textContent = meridien;
 };
+
+function set(alarm){
+    //Checks if the alarm is set for a time prior to the current time. If so, sets the alarm for that time the next day
+    const {min, hour} = alarm;
+    let date = new Date();
+    if(hour <= date.getHours() && min <= date.getMinutes()){
+        date.setDate(date.getDate() + 1);
+        alarm.day = date.getDate();
+        alarm.month = date.getMonth()+1;
+        alarm.year = date.getFullYear();
+    }else{
+        return;
+    };
+}
+
+function isPast({day,month,year,hour,min}){
+    const today = new Date();
+    if(day <= today.getDate() && month <= today.getMonth() && year <= today.getYear() && hour <= today.getHours() && min < today.getMinutes()){
+        return true;
+    }else{
+        return false;
+    }
+}
 
 function leadingZero(x){
     return x < 10 ? '0' + x.toString() : x;
@@ -37,12 +45,56 @@ function formatHour(x){
     }
 };
 
-function updateHour(x,amount){
-    return x + amount < 0 ? x = 23 : x + amount
+function increase(element,alarm){
+    const portion = element.id;
+    const hourAdjust = alarm.meridien === 'AM' ? 0 : 12;
+    if(portion === 'alarm-hour'){
+        if(alarm.hour + 1 < 12 + hourAdjust){
+            alarm.hour += 1;
+        }else{
+            alarm.meridien === 'AM' ? alarm.hour = 0 : alarm.hour = 12;
+        }
+    }else if(portion === 'alarm-min'){
+        if(alarm.min + 5 < 60){
+            alarm.min += 5;
+        }else{
+            alarm.min = 0 ;
+        }
+    }else{
+        setMeridien(element,alarm);
+    }
+    render(alarm);
 }
 
-function checkMeridian(x){
-    return x > 11 ? 'PM' : 'AM';
+function decrease(element,alarm){
+    const portion = element.id;
+    const hourAdjust = alarm.meridien === 'AM' ? 12 : 0;
+    if(portion === 'alarm-hour'){
+        if(alarm.hour - 1 >= 12 - hourAdjust){
+            alarm.hour -= 1;
+        }else{
+            alarm.meridien === 'AM' ? alarm.hour = 11 : alarm.hour = 23;
+        }
+    }else if(portion === 'alarm-min'){
+        if(alarm.min - 5 >= 0){
+            alarm.min -= 5;
+        }else{
+            alarm.min = 55 ;
+        }
+    }else{
+        setMeridien(element,alarm);
+    }
+    render(alarm);
 }
 
-export { update, render };
+function setMeridien(element,alarm){
+    if(element.textContent === 'AM'){
+        alarm.meridien = 'PM';
+        alarm.hour += 12;
+    }else{
+        alarm.meridien = 'AM';
+        alarm.hour -= 12;
+    }
+}
+
+export { render, set, increase, decrease, isPast };

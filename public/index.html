@@ -16,15 +16,29 @@
         <div id="clock-container">
             <table id="clock-table"></table>
         </div>
-        <i id="alarm-button" class="far fa-bell" alt="Set an Alarm"></i>
+        <i id="alarm-toggle" class="far fa-bell" alt="Set an Alarm"></i>
         <div id="alarm-container" class="hidden">
             <div id="alarm-form">
-                <button id="dec">▼</i></button>
-                <span id="alarm-hour" class="num-display">12</span>:<span id="alarm-min" class="num-display">00</span><span id="meridien">AM</span>
-                <button id="inc">▲</button>
+                <div class="alarm-adjust">
+                    <span class="inc">▲</span>
+                    <span id="alarm-hour" class="num-display">12</span>
+                    <span class="dec">▼</i></span>
+                </div>
+                :
+                <div class="alarm-adjust">
+                    <span class="inc">▲</span>
+                    <span id="alarm-min" class="num-display">00</span>
+                    <span class="dec">▼</i></span>
+                </div>
+                <div class="alarm-adjust">
+                    <span class="inc">▲</span>
+                    <span id="meridien" class="num-display">AM</span>
+                    <span class="dec">▼</i></span>
+                </div>
                 <br/>
-                <button id="alarm-setter" class="alarm-button">Set Alarm</button>
             </div>
+            <button id="alarm-setter">Set Alarm</button>
+            <button id="alarm-cancel">Cancel Alarm</button>
         </div>
     </div>
     <footer>
