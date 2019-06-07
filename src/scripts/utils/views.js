@@ -25,10 +25,10 @@ function renderClock(){
             cell.classList.add('clock-cell');
             cell.textContent = letter;
             newRow.appendChild(cell);
-        };
+        }
         clockTable.appendChild(newRow);
     });
-};
+}
 
 //Takes in sentence array and turns on specific  letters
 function activateTime(timeArray){
@@ -51,15 +51,15 @@ function activateTime(timeArray){
                     }else{
                         cursor[1] = index;
                     }
-                };
+                }
             }else{
                 //Increment cursor to the beginning of the next row
                 cursor[0] += 1;
                 cursor[1] = 0;
             }
-        };
+        }
     });
-};
+}
 
 //Turns off all letters when the 5 minute interval hits
 function clearTime(){
@@ -67,8 +67,8 @@ function clearTime(){
         const rowEl = document.getElementById(`row-${index}`);
         for(let i = 0; i < row.length; i++){
             rowEl.children[i].classList.remove('on');
-        };
+        }
     });
-};
+}
 
 export {renderClock,activateTime,clearTime};

@@ -5,7 +5,7 @@ function roundMinute(minute){
         return Math.floor(minute/5)*5;
     }else{
         return Math.ceil(minute/5)*5;
-    };
+    }
 }
 
 function formatHour(hour){
@@ -15,15 +15,12 @@ function formatHour(hour){
         return converter.toWords(hour - 12);
     }else{
         return 'twelve' //convert 12am from 00 to 12;
-    };
+    }
 }
 
 function buildSentence(minute,hour){
     //Get initial time values
-    //const now = new Date();
-    //const minute = now.getMinutes()
     let interval = roundMinute(minute);
-    //let hour = now.getHours();
     //Adjust to read for next hour if past X:30
     minute <= 30 ? hour = formatHour(hour) : hour = formatHour(hour+1);
 
@@ -31,7 +28,7 @@ function buildSentence(minute,hour){
         return `It is ${hour} OClock`.toUpperCase();
     }else{
         return `It is ${formatMinuteText(interval)} ${hour}`.toUpperCase();
-    };
+    }
 }
 
 function formatMinuteText(interval){
@@ -43,18 +40,18 @@ function formatMinuteText(interval){
         interval = 60 - interval; //Adjust interval to look towards next hour
     }else{
         preposition = 'past';
-    };
+    }
     //Check current interveral and convert to words
     if ((interval !== 0) && (interval % 15 === 0)){
         if(interval === 30){
-            num = 'Half';
+            num = 'half';
         }else{
-            num = 'Quarter';
-        };
+            num = 'quarter';
+        }
     }else{
         num = converter.toWords(interval).replace('-',' ');
-    };
+    }
     return `${num} ${preposition}`; //return formatted string, adding 'minutes' if not a previously corrected word
 }
 
-export {roundMinute,buildSentence,formatHour};
+export { roundMinute,buildSentence,formatHour,formatMinuteText };

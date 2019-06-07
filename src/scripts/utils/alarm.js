@@ -6,7 +6,7 @@ function render({min, hour, meridien}){
     alarmHourEl.textContent = leadingZero(formatHour(hour));
     alarmMinEl.textContent = leadingZero(min);
     meridienEl.textContent = meridien;
-};
+}
 
 function set(alarm){
     //Checks if the alarm is set for a time prior to the current time. If so, sets the alarm for that time the next day
@@ -19,7 +19,7 @@ function set(alarm){
         alarm.year = date.getFullYear();
     }else{
         return;
-    };
+    }
 }
 
 function isPast({day,month,year,hour,min}){
@@ -33,7 +33,7 @@ function isPast({day,month,year,hour,min}){
 
 function leadingZero(x){
     return x < 10 ? '0' + x.toString() : x;
-};
+}
 
 function formatHour(x){
     if(x > 12){
@@ -43,7 +43,7 @@ function formatHour(x){
     }else{
         return x
     }
-};
+}
 
 function increase(element,alarm){
     const portion = element.id;
