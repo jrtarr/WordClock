@@ -54,4 +54,4 @@ function formatMinuteText(interval){
     return `${num} ${preposition}`; //return formatted string, adding 'minutes' if not a previously corrected word
 }
 
-export { roundMinute,buildSentence,formatHour,formatMinuteText };
+module.exports = { roundMinute,buildSentence,formatHour,formatMinuteText };

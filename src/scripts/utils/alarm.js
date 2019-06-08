@@ -12,19 +12,26 @@ function set(alarm){
     //Checks if the alarm is set for a time prior to the current time. If so, sets the alarm for that time the next day
     const {min, hour} = alarm;
     let date = new Date();
-    if(hour <= date.getHours() && min <= date.getMinutes()){
+    if(hour < date.getHours()){
+        date.setDate(date.getDate() + 1);
+        alarm.day = date.getDate();
+        alarm.month = date.getMonth()+1;
+        alarm.year = date.getFullYear();
+    }else if(min <= date.getMinutes() && hour <= date.getHours()){
         date.setDate(date.getDate() + 1);
         alarm.day = date.getDate();
         alarm.month = date.getMonth()+1;
         alarm.year = date.getFullYear();
     }else{
-        return;
+        alarm.day = date.getDate();
+        alarm.month = date.getMonth()+1;
+        alarm.year = date.getFullYear();
     }
 }
 
 function isPast({day,month,year,hour,min}){
-    const today = new Date();
-    if(day <= today.getDate() && month <= today.getMonth() && year <= today.getYear() && hour <= today.getHours() && min < today.getMinutes()){
+    const today = new Date()
+    if((day <= today.getDate()) && (month <= today.getMonth()+1) && (year <= today.getFullYear()) && (hour <= today.getHours()) && (min <= today.getMinutes())){
         return true;
     }else{
         return false;
@@ -97,4 +104,4 @@ function setMeridien(element,alarm){
     }
 }
 
-export { render, set, increase, decrease, isPast };
+module.exports = { render, set, increase, decrease, isPast, formatHour };
