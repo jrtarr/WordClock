@@ -22,6 +22,8 @@ html,body{
     background: $black1;
     border-radius: 0 0 50px 50px;
     h1{
+        max-height: 45px;
+        line-height: 45px;
         margin: 0;
         font-style: italic;
         span{
