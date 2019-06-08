@@ -72,7 +72,6 @@ alarmButtonParents.forEach(el => {
 //Set Alarm
 alarmSetter.addEventListener('click', () =>{
     alarm.set(alarmTime);
-    console.log(alarmTime)
     alarmSet = true;
     clearInterval(timeInt);
     clearTimeout(timeout);
