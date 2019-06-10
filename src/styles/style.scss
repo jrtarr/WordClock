@@ -8,27 +8,27 @@
 }
 
 html,body{
-    height: 100%;
     background: $black2;
+    height: 100%;
     margin: 0;
-    padding: 0;
     overflow-x: hidden;
+    padding: 0;
 }
 #container{
-    min-height: calc(100vh - 100px);
-    margin: auto;
-    padding: 25px 0;
-    text-align: center;
     background: $black1;
     border-radius: 0 0 50px 50px;
+    margin: auto;
+    min-height: calc(100vh - 100px);
+    padding: 25px 0;
+    text-align: center;
     h1{
-        max-height: 45px;
+        font-style: italic;
         line-height: 45px;
         margin: 0;
-        font-style: italic;
+        max-height: 45px;
         span{
-            vertical-align: center;
             font-size: 1.4em;
+            vertical-align: center;
         }
         span:nth-child(1){
             color: $magenta;
@@ -42,21 +42,21 @@ html,body{
         }
     }
     noscript{
-        width: 75%;
-        font-size: 2em;
         color: $white;
+        font-size: 2em;
+        width: 75%;
     }
 }
 footer{
-    height: 50px;
     background: $black2;
+    height: 50px;
     text-align: center;
     a{
+        color: $black1;
+        font-size: .8em;
         font-weight: normal;
         line-height: 50px;
-        font-size: .8em;
         text-decoration: none;
-        color: $black1;
         &:hover{
             @include glow;
             transition: color .25s linear, text-shadow .25s linear;
